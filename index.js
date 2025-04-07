@@ -1,8 +1,11 @@
 var express = require('express');
 var cors = require('cors');
-require('dotenv').config()
+const multer = require('multer');
+require('dotenv').config();
+
 
 var app = express();
+const upload = multer({ dest: 'uploads/' });
 
 app.use(cors());
 app.use('/public', express.static(process.cwd() + '/public'));
@@ -19,7 +22,11 @@ app.listen(port, function () {
   console.log('Your app is listening on port ' + port)
 });
 
-app.post("/", function(req, res){
-  let file = req.body.upfile;
-
+app.post("/api/fileanalyse", upload.single('upfile'), function(req, res){
+  let file = req.file;
+  if(file){
+    res.json({name: file.originalname, type: file.mimetype, size: file.size});
+  }
+  else{ return res.send("nah"); }
 });
+
