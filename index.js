@@ -18,3 +18,8 @@ const port = process.env.PORT || 3000;
 app.listen(port, function () {
   console.log('Your app is listening on port ' + port)
 });
+
+app.post("/", function(req, res){
+  let file = req.body.upfile;
+
+});
